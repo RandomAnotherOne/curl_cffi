@@ -23,8 +23,13 @@ BrowserTypeLiteral = Literal[
     "chrome123",
     "chrome124",
     "chrome131",
+    "chrome135",
     "chrome99_android",
     "chrome131_android",
+    # Opera
+    "opera117",
+    # Ccleaner
+    "ccleaner133",
     # Safari
     "safari15_3",
     "safari15_5",
@@ -38,6 +43,8 @@ BrowserTypeLiteral = Literal[
     "safari",
     "safari_ios",
     "chrome_android",
+    "ccleaner",
+    "opera"
     # Canonical names
     # "edge_99",
     # "edge_101",
@@ -55,6 +62,8 @@ DEFAULT_EDGE = "edge101"
 DEFAULT_SAFARI = "safari18_0"
 DEFAULT_SAFARI_IOS = "safari18_0_ios"
 DEFAULT_CHROME_ANDROID = "chrome131_android"
+DEFAULT_OPERA = "opera117"
+DEFAULT_CCLEANER = "ccleaner133"
 
 
 REAL_TARGET_MAP = {
@@ -63,6 +72,8 @@ REAL_TARGET_MAP = {
     "safari": "safari17_0",
     "safari_ios": "safari17_2_ios",
     "chrome_android": "chrome131_android",
+    "opera": "opera117",
+    "ccleaner": "ccleaner133"
 }
 
 
@@ -77,13 +88,19 @@ def normalize_browser_type(item):
         return DEFAULT_SAFARI_IOS
     elif item == "chrome_android":
         return DEFAULT_CHROME_ANDROID
+    elif item == "opera":
+        return DEFAULT_OPERA
+    elif item == "ccleaner":
+        return DEFAULT_CCLEANER
     else:
         return item
 
 
 class BrowserType(str, Enum):  # todo: remove in version 1.x
+    # Edge
     edge99 = "edge99"
     edge101 = "edge101"
+    # Chrome
     chrome99 = "chrome99"
     chrome100 = "chrome100"
     chrome101 = "chrome101"
@@ -96,8 +113,15 @@ class BrowserType(str, Enum):  # todo: remove in version 1.x
     chrome123 = "chrome123"
     chrome124 = "chrome124"
     chrome131 = "chrome131"
+    chrome135 = "chrome135"
+    # Opera
+    opera117 = "opera117"
+    # Ccleaner
+    ccleaner133 = "ccleaner133"
+    # Chrome And
     chrome99_android = "chrome99_android"
     chrome131_android = "chrome131_android"
+    # Safari
     safari15_3 = "safari15_3"
     safari15_5 = "safari15_5"
     safari17_0 = "safari17_0"
@@ -143,7 +167,7 @@ TLS_CIPHER_NAME_MAP = {
     0x000A: "TLS_RSA_WITH_3DES_EDE_CBC_SHA",
     0x002F: "TLS_RSA_WITH_AES_128_CBC_SHA",
     0x0035: "TLS_RSA_WITH_AES_256_CBC_SHA",
-    0x003C: "TLS_RSA_WITH_AES_128_CBC_SHA256",
+    0x003C: "TLS_RSA_WITH_AES_128_CBC_SHA256",  ## OPERA-117
     0x003D: "TLS_RSA_WITH_AES_256_CBC_SHA256",
     0x008C: "TLS_PSK_WITH_AES_128_CBC_SHA",
     0x008D: "TLS_PSK_WITH_AES_256_CBC_SHA",
@@ -168,9 +192,10 @@ TLS_CIPHER_NAME_MAP = {
     0xCCA8: "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256",
     0xCCA9: "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
     0xCCAC: "TLS_ECDHE_PSK_WITH_CHACHA20_POLY1305_SHA256",
-    0x1301: "TLS_AES_128_GCM_SHA256",
-    0x1302: "TLS_AES_256_GCM_SHA384",
-    0x1303: "TLS_CHACHA20_POLY1305_SHA256",
+    0x1301: "TLS_AES_128_GCM_SHA256",  # TLS 1.3
+    0x1302: "TLS_AES_256_GCM_SHA384",  # TLS 1.3
+    0x1303: "TLS_CHACHA20_POLY1305_SHA256",  # NEWEST
+
 }
 
 
@@ -220,15 +245,15 @@ TLS_EXTENSION_NAME_MAP = {
     # 40:"Reserved",
     41: "pre_shared_key",
     42: "early_data",
-    43: "supported_versions",
+    43: "supported_versions",  # TLS 1.3
     44: "cookie",
-    45: "psk_key_exchange_modes",
+    45: "psk_key_exchange_modes",  # TLS 1.3
     # 46:"Reserved",
     47: "certificate_authorities",
     48: "oid_filters",
     49: "post_handshake_auth",
     50: "signature_algorithms_cert",
-    51: "key_share",
+    51: "key_share",  # TLS 1.3
     52: "transparency_info",
     # 53:"connection_id", # (deprecated)
     54: "connection_id",
@@ -284,11 +309,11 @@ TLS_EXTENSION_NAME_MAP = {
 
 
 TLS_EC_CURVES_MAP = {
-    19: "P-192",
-    21: "P-224",
-    23: "P-256",
-    24: "P-384",
-    25: "P-521",
+    19: "P-192",  # secp192r1
+    21: "P-224",  # secp224r1
+    23: "P-256",  # secp256r1
+    24: "P-384",  # secp384r1
+    25: "P-521",  # secp521r1
     29: "X25519",
     4588: "X25519MLKEM768",
     25497: "X25519Kyber768Draft00",
