@@ -119,7 +119,6 @@ ffibuilder.set_source(
     """
         #include "shim.h"
     """,
-    # FIXME from `curl-impersonate`
     libraries=get_curl_libraries(),
     extra_objects=get_curl_archives(),
     library_dirs=[arch["libdir"], os.path.join(arch["libdir"], "lib")],
@@ -127,6 +126,7 @@ ffibuilder.set_source(
     include_dirs=[
         str(root_dir / "include"),
         str(root_dir / "ffi"),
+        r"C:\curl\include" 
     ],
     sources=[
         str(root_dir / "ffi/shim.c"),
